@@ -21,7 +21,7 @@ Below is the conceptual execution flowchart of the system, demonstrating how use
 ```mermaid
 graph TD
     User([User Query]) --> RewriterToggle{Enable Query Rewriting?}
-    RewriterToggle -- Yes --> Rewriter[Query Rewriter (OpenAI / Ollama)]
+    RewriterToggle -- Yes --> Rewriter["Query Rewriter (OpenAI / Ollama)"]
     RewriterToggle -- No --> QueryPass[Original Query]
     Rewriter -- Standalone Search Query --> Retriever[DocuMind Retriever]
     QueryPass --> Retriever
@@ -41,11 +41,11 @@ graph TD
 
     ChromaDB --> Filter[Retrieved Document Chunks]
     Filter --> CompressorToggle{Context Compression?}
-    CompressorToggle -- Yes --> Compressor[Context Compressor (LLMChainExtractor)]
+    CompressorToggle -- Yes --> Compressor["Context Compressor (LLMChainExtractor)"]
     CompressorToggle -- No --> Prompt[Prompt Builder]
     Compressor --> Prompt
     
-    Prompt --> Generator[LLM Generator (OpenAI / Ollama)]
+    Prompt --> Generator["LLM Generator (OpenAI / Ollama)"]
     Generator --> Response[Streaming Response]
     Response --> UI[Streamlit UI]
     
@@ -53,7 +53,7 @@ graph TD
         UI --> Metrics[Metrics Tracker]
         Metrics --> LogFile[(metrics_history.json)]
         Metrics --> Dashboard[Retrieval Analytics Dashboard]
-        UI --> Exporters[Exporters (PDF, MD, TXT, JSON)]
+        UI --> Exporters["Exporters (PDF, MD, TXT, JSON)"]
     end
 ```
 
