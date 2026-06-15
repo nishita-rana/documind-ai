@@ -20,40 +20,40 @@ Below is the conceptual execution flowchart of the system, demonstrating how use
 
 ```mermaid
 graph TD
-    User([User Query]) --> RewriterToggle{Enable Query Rewriting?}
-    RewriterToggle -- Yes --> Rewriter["Query Rewriter (OpenAI / Ollama)"]
-    RewriterToggle -- No --> QueryPass[Original Query]
-    Rewriter -- Standalone Search Query --> Retriever[DocuMind Retriever]
+    User["User Query"] --> RewriterToggle["Enable Query Rewriting"]
+    RewriterToggle -- Yes --> Rewriter["Query Rewriter OpenAI and Ollama"]
+    RewriterToggle -- No --> QueryPass["Original Query"]
+    Rewriter -- Standalone Search Query --> Retriever["DocuMind Retriever"]
     QueryPass --> Retriever
     
-    subgraph Strategy Pattern (OOP)
-        Retriever --> StrategySelector{Selected Strategy}
-        StrategySelector --> Sim[SimilaritySearchStrategy]
-        StrategySelector --> MMR[MMRSearchStrategy]
-        StrategySelector --> Thresh[ScoreThresholdSearchStrategy]
+    subgraph Strategy Pattern OOP
+        Retriever --> StrategySelector["Selected Strategy"]
+        StrategySelector --> Sim["SimilaritySearchStrategy"]
+        StrategySelector --> MMR["MMRSearchStrategy"]
+        StrategySelector --> Thresh["ScoreThresholdSearchStrategy"]
     end
 
     subgraph Vector DB
-        Sim --> ChromaDB[(Chroma Vector DB)]
+        Sim --> ChromaDB["Chroma Vector DB"]
         MMR --> ChromaDB
         Thresh --> ChromaDB
     end
 
-    ChromaDB --> Filter[Retrieved Document Chunks]
-    Filter --> CompressorToggle{Context Compression?}
-    CompressorToggle -- Yes --> Compressor["Context Compressor (LLMChainExtractor)"]
-    CompressorToggle -- No --> Prompt[Prompt Builder]
+    ChromaDB --> Filter["Retrieved Document Chunks"]
+    Filter --> CompressorToggle["Context Compression"]
+    CompressorToggle -- Yes --> Compressor["Context Compressor LLMChainExtractor"]
+    CompressorToggle -- No --> Prompt["Prompt Builder"]
     Compressor --> Prompt
     
-    Prompt --> Generator["LLM Generator (OpenAI / Ollama)"]
-    Generator --> Response[Streaming Response]
-    Response --> UI[Streamlit UI]
+    Prompt --> Generator["LLM Generator OpenAI and Ollama"]
+    Generator --> Response["Streaming Response"]
+    Response --> UI["Streamlit UI"]
     
-    subgraph Analytics & Export Layer
-        UI --> Metrics[Metrics Tracker]
-        Metrics --> LogFile[(metrics_history.json)]
-        Metrics --> Dashboard[Retrieval Analytics Dashboard]
-        UI --> Exporters["Exporters (PDF, MD, TXT, JSON)"]
+    subgraph Analytics and Export Layer
+        UI --> Metrics["Metrics Tracker"]
+        Metrics --> LogFile["metrics_history.json"]
+        Metrics --> Dashboard["Retrieval Analytics Dashboard"]
+        UI --> Exporters["Exporters PDF MD TXT JSON"]
     end
 ```
 
