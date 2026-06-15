@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  documind-ai:
+    build: .
+    container_name: documind-ai
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./docs:/app/docs
+      - ./chroma_db:/app/chroma_db
+      - ./logs:/app/logs
+    env_file:
+      - .env
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
